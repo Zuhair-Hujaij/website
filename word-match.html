@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="C:\website\website\image\logo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لعبة تعليمية - مطابقة الكلمات</title>
+  <style>
+    body {
+      background-color: #f0f8ff;
+      color: #007BFF;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #007BFF;
+      padding: 10px 0;
+      text-align: center;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .select-container {
+      margin-bottom: 20px;
+    }
+    .game-section {
+      display: none;
+      margin-top: 20px;
+    }
+    .card {
+      background-color: #ffffff;
+      border: 2px solid #007BFF;
+      padding: 10px;
+      display: inline-block;
+      margin: 10px;
+      cursor: pointer;
+      min-width: 80px;
+    }
+    .card.matched {
+      background-color: #b3d9ff;
+      pointer-events: none;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .message {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    .score {
+      font-size: 20px;
+      font-weight: bold;
+      color: #007BFF;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="index.html">الرئيسية</a>
+    <a href="vocabulary-quiz.html">إختبار المفردات</a>
+    <a href="sentence-arrangment.html">ترتيب الجمل</a>
+  </div>
+
+  <div class="content">
+    <h1>🌍 لعبة مطابقة الكلمات</h1>
+    <div class="select-container">
+      <label for="language">اختر اللغة:</label>
+      <select id="language">
+        <option value="en">الإنجليزية</option>
+        <option value="fr">الفرنسية</option>
+        <option value="es">الإسبانية</option>
+        <option value="zh">الصينية</option>
+        <option value="ru">الروسية</option>
+        <option value="tr">التركية</option>
+      </select>
+
+      <label for="level" style="margin-left:20px;">اختر المستوى:</label>
+      <select id="level">
+        <option value="easy">سهل</option>
+        <option value="medium">متوسط</option>
+        <option value="hard">صعب</option>
+      </select>
+
+      <button onclick="startGame()">ابدأ</button>
+    </div>
+
+    <div class="game-section" id="game">
+      <div id="score" class="score">النقاط: 0</div>
+      <h2>طابق الكلمات</h2>
+      <div id="cards-container"></div>
+      <div id="message" class="message"></div>
+      <button onclick="resetGame()">إعادة اللعبة</button>
+    </div>
+  </div>
+
+  <script>
+    const wordSets = {
+      en: [['cat', 'قط'], ['apple', 'تفاحة'], ['car', 'سيارة'], ['book', 'كتاب'], ['house', 'منزل'],
+        ['dog', 'كلب'], ['water', 'ماء'], ['sun', 'شمس'], ['tree', 'شجرة'], ['school', 'مدرسة'],
+        ['bread', 'خبز'], ['milk', 'حليب'], ['chair', 'كرسي'], ['table', 'طاولة'], ['phone', 'هاتف'],
+        ['window', 'نافذة'], ['door', 'باب'], ['pen', 'قلم'], ['teacher', 'معلم'], ['student', 'طالب']],
+      fr: [['chat', 'قط'], ['pomme', 'تفاحة'], ['voiture', 'سيارة'], ['livre', 'كتاب'], ['maison', 'منزل'],
+        ['chien', 'كلب'], ['eau', 'ماء'], ['soleil', 'شمس'], ['arbre', 'شجرة'], ['école', 'مدرسة'],
+        ['pain', 'خبز'], ['lait', 'حليب'], ['chaise', 'كرسي'], ['table', 'طاولة'], ['téléphone', 'هاتف'],
+        ['fenêtre', 'نافذة'], ['porte', 'باب'], ['stylo', 'قلم'], ['professeur', 'معلم'], ['étudiant', 'طالب']],
+      es: [['gato', 'قط'], ['manzana', 'تفاحة'], ['coche', 'سيارة'], ['libro', 'كتاب'], ['casa', 'منزل'],
+        ['perro', 'كلب'], ['agua', 'ماء'], ['sol', 'شمس'], ['árbol', 'شجرة'], ['escuela', 'مدرسة'],
+        ['pan', 'خبز'], ['leche', 'حليب'], ['silla', 'كرسي'], ['mesa', 'طاولة'], ['teléfono', 'هاتف'],
+        ['ventana', 'نافذة'], ['puerta', 'باب'], ['bolígrafo', 'قلم'], ['profesor', 'معلم'], ['estudiante', 'طالب']],
+      zh: [['猫', 'قط'], ['苹果', 'تفاحة'], ['车', 'سيارة'], ['书', 'كتاب'], ['房子', 'منزل'],
+        ['狗', 'كلب'], ['水', 'ماء'], ['太阳', 'شمس'], ['树', 'شجرة'], ['学校', 'مدرسة'],
+        ['面包', 'خبز'], ['牛奶', 'حليب'], ['椅子', 'كرسي'], ['桌子', 'طاولة'], ['电话', 'هاتف'],
+        ['窗户', 'نافذة'], ['门', 'باب'], ['笔', 'قلم'], ['老师', 'معلم'], ['学生', 'طالب']],
+      ru: [['кот', 'قط'], ['яблоко', 'تفاحة'], ['машина', 'سيارة'], ['книга', 'كتاب'], ['дом', 'منزل'],
+        ['собака', 'كلب'], ['вода', 'ماء'], ['солнце', 'شمس'], ['дерево', 'شجرة'], ['школа', 'مدرسة'],
+        ['хлеб', 'خبز'], ['молоко', 'حليب'], ['стул', 'كرسي'], ['стол', 'طاولة'], ['телефон', 'هاتف'],
+        ['окно', 'نافذة'], ['дверь', 'باب'], ['ручка', 'قلم'], ['учитель', 'معلم'], ['студент', 'طالب']],
+      tr: [['kedi', 'قط'], ['elma', 'تفاحة'], ['araba', 'سيارة'], ['kitap', 'كتاب'], ['ev', 'منزل'],
+        ['köpek', 'كلب'], ['su', 'ماء'], ['güneş', 'شمس'], ['ağaç', 'شجرة'], ['okul', 'مدرسة'],
+        ['ekmek', 'خبز'], ['süt', 'حليب'], ['sandalye', 'كرسي'], ['masa', 'طاولة'], ['telefon', 'هاتف'],
+        ['pencere', 'نافذة'], ['kapı', 'باب'], ['kalem', 'قلم'], ['öğretmen', 'معلم'], ['öğrenci', 'طالب']]
+    };
+
+    const messages = {
+      en: { correct: 'Correct!', incorrect: 'Wrong!' },
+      fr: { correct: 'Correct!', incorrect: 'Faux!' },
+      es: { correct: '¡Correcto!', incorrect: '¡Incorrecto!' },
+      zh: { correct: '正确!', incorrect: '错误!' },
+      ru: { correct: 'Правильно!', incorrect: 'Неправильно!' },
+      tr: { correct: 'Doğru!', incorrect: 'Yanlış!' }
+    };
+
+    let selectedLang = 'en';
+    let selectedLevel = 'easy';
+    let firstCard = null;
+    let score = 0;
+
+    function startGame() {
+      selectedLang = document.getElementById('language').value;
+      selectedLevel = document.getElementById('level').value;
+      score = 0;
+      updateScore();
+      document.getElementById('game').style.display = 'block';
+      document.getElementById('message').innerText = '';
+      generateCards();
+    }
+
+    function updateScore() {
+      document.getElementById('score').innerText = `النقاط: ${score}`;
+    }
+
+    function generateCards() {
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';
+      document.getElementById('message').innerText = '';
+      firstCard = null;
+
+      let limit = 5;
+      if (selectedLevel === 'medium') limit = 10;
+      else if (selectedLevel === 'hard') limit = 20;
+
+      const words = wordSets[selectedLang].slice(0, limit);
+      let pairs = [];
+
+      words.forEach(([foreign, arabic]) => {
+        pairs.push({ text: foreign, pair: arabic });
+        pairs.push({ text: arabic, pair: foreign });
+      });
+
+      pairs = pairs.sort(() => 0.5 - Math.random());
+
+      pairs.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerText = item.text;
+        card.dataset.pair = item.pair;
+        card.onclick = () => selectCard(card);
+        container.appendChild(card);
+      });
+    }
+
+    function selectCard(card) {
+      if (card.classList.contains('matched') || card === firstCard) return;
+
+      card.style.backgroundColor = '#cce6ff';
+
+      if (!firstCard) {
+        firstCard = card;
+      } else {
+        const messageEl = document.getElementById('message');
+        if (card.dataset.pair === firstCard.innerText || firstCard.dataset.pair === card.innerText) {
+          card.classList.add('matched');
+          firstCard.classList.add('matched');
+          score++;
+          updateScore();
+          messageEl.innerText = messages[selectedLang].correct;
+          messageEl.className = 'message correct';
+        } else {
+          const tempFirst = firstCard;
+          messageEl.innerText = messages[selectedLang].incorrect;
+          messageEl.className = 'message incorrect';
+          setTimeout(() => {
+            card.style.backgroundColor = '#fff';
+            tempFirst.style.backgroundColor = '#fff';
+            messageEl.innerText = '';
+          }, 1000);
+        }
+        firstCard = null;
+      }
+    }
+
+    function resetGame() {
+      score = 0;
+      updateScore();
+      generateCards();
+    }
+  </script>
+</body>
+</html>
