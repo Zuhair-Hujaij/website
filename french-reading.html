@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>نصوص تعليمية - الفرنسية</title>
+    <link rel="shortcut icon" type="image/x-icon" href="C:\website\website\image\logo.png">
+    <style>
+        body { font-family: Arial; margin: 0; background: #fff; }
+        .navbar { background: #007BFF; display: flex; justify-content: space-around; }
+        .navbar a { color: white; padding: 14px; text-decoration: none; display: block; }
+        .navbar a:hover { background: #0056b3; }
+        .content { padding: 20px; }
+        h2 { color: #007BFF; }
+        p { font-size: 16px; line-height: 1.6; }
+        button { background: #007BFF; color: white; border: none; padding: 8px 12px; margin-bottom: 10px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+        <a href="tools.html">السابق</a>
+    </div>
+    <div class="content">
+        <h2>Texte éducatif en français</h2>
+        <button onclick="speakText('frenchText', 'fr')">🔊 استمع للنص الفرنسي</button>
+        <p id="frenchText">
+            La gentillesse est une qualité précieuse qui rend le monde meilleur. Lorsque nous aidons les autres,
+            partageons un sourire ou écoutons avec attention, nous diffusons de la positivité autour de nous.
+            Être gentil ne coûte rien, mais a un impact énorme. C’est par de petits gestes que naît une société plus humaine.
+        </p>
+
+        <h2>النص المترجم إلى العربية</h2>
+        <button onclick="speakText('arabicText', 'ar')">🔊 استمع للنص العربي</button>
+        <p id="arabicText">
+            اللطف صفة ثمينة تجعل العالم مكانًا أفضل. عندما نساعد الآخرين، أو نشاركهم ابتسامة، أو نصغي باهتمام،
+            فإننا ننشر الإيجابية من حولنا. أن تكون لطيفًا لا يكلف شيئًا، لكنه يترك أثراً كبيراً.
+            فمن خلال التصرفات الصغيرة تولد مجتمعات أكثر إنسانية.
+        </p>
+    </div>
+
+    <script>
+        function speakText(elementId, lang) {
+            const text = document.getElementById(elementId).innerText;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
+            speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

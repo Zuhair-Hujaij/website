@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>الحروف الروسية - الاستماع</title>
+  <link rel="shortcut icon" type="x-icon" href="C:\website\website\image\logo.png">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #e6f9fa;
+    }
+    header {
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    nav {
+      background-color: #007BFF;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .container {
+      padding: 30px;
+      text-align: center;
+    }
+    h2 {
+      color: #007BFF;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .card {
+      background-color: white;
+      border: 2px solid #007BFF;
+      padding: 20px;
+      border-radius: 10px;
+      color: #007BFF;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .card:hover {
+      background-color: #cce5ff;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>الحروف الروسية - استمع وتعلّم</div>
+  
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="russia-goal.html">المفردات</a>
+    <a href="russia-grammar-level.html">القواعد</a>
+    <a href="russian-alphabet.html">الأحرف</a>
+  </nav>
+</header>
+
+<div class="container" id="alphabet">
+  <h2>انقر على الحرف للاستماع إلى نطقه</h2>
+ 
+  <div class="grid">
+    <div class="card" onclick="speak('А')">А</div>
+    <div class="card" onclick="speak('Б')">Б</div>
+    <div class="card" onclick="speak('В')">В</div>
+    <div class="card" onclick="speak('Г')">Г</div>
+    <div class="card" onclick="speak('Д')">Д</div>
+    <div class="card" onclick="speak('Е')">Е</div>
+    <div class="card" onclick="speak('Ё')">Ё</div>
+    <div class="card" onclick="speak('Ж')">Ж</div>
+    <div class="card" onclick="speak('З')">З</div>
+    <div class="card" onclick="speak('И')">И</div>
+    <div class="card" onclick="speak('Й')">Й</div>
+    <div class="card" onclick="speak('К')">К</div>
+    <div class="card" onclick="speak('Л')">Л</div>
+    <div class="card" onclick="speak('М')">М</div>
+    <div class="card" onclick="speak('Н')">Н</div>
+    <div class="card" onclick="speak('О')">О</div>
+    <div class="card" onclick="speak('П')">П</div>
+    <div class="card" onclick="speak('Р')">Р</div>
+    <div class="card" onclick="speak('С')">С</div>
+    <div class="card" onclick="speak('Т')">Т</div>
+    <div class="card" onclick="speak('У')">У</div>
+    <div class="card" onclick="speak('Ф')">Ф</div>
+    <div class="card" onclick="speak('Х')">Х</div>
+    <div class="card" onclick="speak('Ц')">Ц</div>
+    <div class="card" onclick="speak('Ч')">Ч</div>
+    <div class="card" onclick="speak('Ш')">Ш</div>
+    <div class="card" onclick="speak('Щ')">Щ</div>
+    <div class="card" onclick="speak('Ы')">Ы</div>
+    <div class="card" onclick="speak('Э')">Э</div>
+    <div class="card" onclick="speak('Ю')">Ю</div>
+    <div class="card" onclick="speak('Я')">Я</div>
+  </div>
+</div>
+
+<script>
+  function speak(letter) {
+    const utterance = new SpeechSynthesisUtterance(letter);
+    utterance.lang = 'ru-RU'; 
+    window.speechSynthesis.speak(utterance); 
+  }
+</script>
+
+</body>
+</html>

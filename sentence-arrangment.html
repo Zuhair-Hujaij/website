@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="C:\website\website\image\logo.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لعبة ترتيب الجمل</title>
+  <style>
+    body {
+      background-color: #f0f8ff;
+      color: #007BFF;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .navbar {
+      background-color: #007BFF;
+      padding: 10px 0;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .sentence-section {
+      display: none;
+      margin-top: 20px;
+    }
+    .word {
+      display: inline-block;
+      background-color: #ffffff;
+      border: 2px solid #007BFF;
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    #scoreDisplay {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="index.html">الرئيسية</a>
+    <a href="word-match.html">مطابقة الكلمات</a>
+    <a href="vocabulary-quiz.html">إختبار المفردات</a>
+  </div>
+
+  <div class="content">
+    <h1>📚 لعبة ترتيب الجمل</h1>
+    <label for="language">اختر اللغة:</label>
+    <select id="language">
+      <option value="en">الإنجليزية</option>
+      <option value="fr">الفرنسية</option>
+      <option value="es">الإسبانية</option>
+      <option value="zh">الصينية</option>
+      <option value="ru">الروسية</option>
+      <option value="tr">التركية</option>
+    </select>
+    <label for="level">اختر المستوى:</label>
+    <select id="level">
+      <option value="easy">سهل</option>
+      <option value="medium">متوسط</option>
+      <option value="hard">صعب</option>
+    </select>
+    <button onclick="startSentenceGame()">ابدأ</button>
+
+    <p id="scoreDisplay">النقاط: 0</p>
+
+    <div class="sentence-section" id="game">
+      <h2>رتب الكلمات لتكوين جملة صحيحة</h2>
+      <div id="words"></div>
+      <div id="result"></div>
+      <button onclick="checkSentence()">تحقق</button>
+      <button onclick="nextSentence()">جملة أخرى</button>
+    </div>
+  </div>
+
+  <script>
+    const sentenceSets = {
+      en: {
+        easy: [
+          "I love learning",
+          "The sun is hot",
+          "She is happy",
+          "He likes to read",
+          "The sky is blue"
+        ],
+        medium: [
+          "The cat is on the table",
+          "He plays football every weekend",
+          "We are learning English",
+          "She goes to school every day",
+          "I read a book every night"
+        ],
+        hard: [
+          "Although it was raining, we went outside",
+          "She has been working here for five years",
+          "They should have arrived by now",
+          "The children were playing in the park when it started raining",
+          "She asked if I could help her with the project"
+        ]
+      },
+      fr: {
+        easy: [
+          "J'aime les chats",
+          "Il fait beau",
+          "Elle est ici",
+          "Je mange une pomme",
+          "Il est mon ami"
+        ],
+        medium: [
+          "Le chat est sur la table",
+          "Il joue au football le week-end",
+          "Nous apprenons le français",
+          "Elle va à l'école tous les jours",
+          "Je lis un livre tous les soirs"
+        ],
+        hard: [
+          "Bien qu'il pleuve, nous sommes sortis",
+          "Elle travaille ici depuis cinq ans",
+          "Ils auraient dû arriver",
+          "Les enfants jouaient dans le parc quand il a commencé à pleuvoir",
+          "Elle m'a demandé si je pouvais l'aider avec le projet"
+        ]
+      },
+      es: {
+        easy: [
+          "Me gusta leer",
+          "Hace calor hoy",
+          "Él está aquí",
+          "Yo como una manzana",
+          "Él es mi amigo"
+        ],
+        medium: [
+          "El gato está sobre la mesa",
+          "Él juega al fútbol cada semana",
+          "Estamos aprendiendo español",
+          "Ella va a la escuela todos los días",
+          "Leo un libro cada noche"
+        ],
+        hard: [
+          "Aunque llovía, salimos",
+          "Ella ha trabajado aquí cinco años",
+          "Deberían haber llegado ya",
+          "Los niños estaban jugando en el parque cuando empezó a llover",
+          "Ella me preguntó si podía ayudarla con el proyecto"
+        ]
+      },
+      zh: {
+        easy: [
+          "我 喜欢 猫",
+          "今天 很 热",
+          "她 在 这儿",
+          "我 吃 苹果",
+          "他 是 我的 朋友"
+        ],
+        medium: [
+          "猫 在 桌子 上",
+          "他 每个 周末 踢 足球",
+          "我们 学习 中文",
+          "她 每天 去 学校",
+          "我 每天 晚上 读 书"
+        ],
+        hard: [
+          "虽然 下雨了 我们 还是 出去了",
+          "她 已经 工作了 五年",
+          "他们 应该 已经 到了",
+          "孩子们 在 公园 玩耍，当 时 开始 下雨",
+          "她 问 我 是否 能 帮 她 做 项目"
+        ]
+      },
+      ru: {
+        easy: [
+          "Я люблю кошек",
+          "Сегодня жарко",
+          "Она здесь",
+          "Я ем яблоко",
+          "Он мой друг"
+        ],
+        medium: [
+          "Кошка на столе",
+          "Он играет в футбол каждую неделю",
+          "Мы учим русский",
+          "Она ходит в школу каждый день",
+          "Я читаю книгу каждую ночь"
+        ],
+        hard: [
+          "Хотя шёл дождь, мы вышли",
+          "Она работает здесь пять лет",
+          "Они должны были уже прийти",
+          "Дети играли в парке, когда начался дождь",
+          "Она спросила, могу ли я помочь ей с проектом"
+        ]
+      },
+      tr: {
+        easy: [
+          "Ben kitap severim",
+          "Bugün çok sıcak",
+          "O burada",
+          "Ben elma yiyorum",
+          "O benim arkadaşım"
+        ],
+        medium: [
+          "Kedi masanın üstünde",
+          "Her hafta futbol oynar",
+          "Türkçe öğreniyoruz",
+          "Her gün okula gider",
+          "Her gece kitap okurum"
+        ],
+        hard: [
+          "Yağmur yağmasına rağmen dışarı çıktık",
+          "Beş yıldır burada çalışıyor",
+          "Şimdiye kadar gelmiş olmalıydılar",
+          "Çocuklar parkta oynarken yağmur yağmaya başladı",
+          "Bana projeyle yardım edip edemeyeceğimi sordu"
+        ]
+      }
+    };
+
+    let currentLang = 'en';
+    let currentLevel = 'easy';
+    let currentSentence = '';
+    let selectedWords = [];
+    let score = 0;
+
+    function updateScoreDisplay() {
+      document.getElementById('scoreDisplay').innerText = `النقاط: ${score}`;
+    }
+
+    function startSentenceGame() {
+      currentLang = document.getElementById('language').value;
+      currentLevel = document.getElementById('level').value;
+      score = 0;
+      updateScoreDisplay();
+      document.getElementById('game').style.display = 'block';
+      nextSentence();
+    }
+
+    function nextSentence() {
+      const sentences = sentenceSets[currentLang][currentLevel];
+      currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
+      const words = currentSentence.split(' ');
+      const shuffled = words.slice().sort(() => 0.5 - Math.random());
+      selectedWords = [];
+
+      const container = document.getElementById('words');
+      container.innerHTML = '';
+      document.getElementById('result').innerText = '';
+
+      shuffled.forEach(word => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.innerText = word;
+        span.onclick = () => selectWord(span, word);
+        container.appendChild(span);
+      });
+    }
+
+    function selectWord(span, word) {
+      if (span.style.visibility === 'hidden') return;
+      selectedWords.push(word);
+      span.style.visibility = 'hidden';
+    }
+
+    function checkSentence() {
+      const userSentence = selectedWords.join(' ');
+      const result = document.getElementById('result');
+      if (userSentence === currentSentence) {
+        result.innerText = '✅ صحيح!';
+        result.style.color = 'green';
+        score++;
+        updateScoreDisplay();
+      } else {
+        result.innerText = '❌ حاول مرة أخرى';
+        result.style.color = 'red';
+      }
+    }
+  </script>
+</body>
+</html>

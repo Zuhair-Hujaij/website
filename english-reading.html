@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>نصوص تعليمية - الإنجليزية</title>
+    <link rel="shortcut icon" type="image/x-icon" href="C:\website\website\image\logo.png">
+    <style>
+        body { font-family: Arial; margin: 0; background: #fff; }
+        .navbar { background: #007BFF; display: flex; justify-content: space-around; }
+        .navbar a { color: white; padding: 14px; text-decoration: none; display: block; }
+        .navbar a:hover { background: #0056b3; }
+        .content { padding: 20px; }
+        h2 { color: #007BFF; }
+        p { font-size: 16px; line-height: 1.6; }
+        button { background: #007BFF; color: white; border: none; padding: 8px 12px; margin-bottom: 10px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+        <a href="tools.html">السابق</a>
+    </div>
+    <div class="content">
+        <h2>English Educational Text</h2>
+        <button onclick="speakText('englishText', 'en')">🔊 استمع للنص الإنجليزي</button>
+        <p id="englishText">
+            Education is the most powerful tool to shape our future. Through learning, we gain knowledge,
+            develop skills, and build our character. It opens doors to new opportunities and helps us
+            understand the world around us. Every child deserves a chance to learn, grow, and reach their full potential.
+            Let us value education and support others in their journey of growth and discovery.
+        </p>
+
+        <h2>النص المترجم إلى العربية</h2>
+        <button onclick="speakText('arabicText', 'ar')">🔊 استمع للنص العربي</button>
+        <p id="arabicText">
+            التعليم هو أقوى أداة لتشكيل مستقبلنا. من خلال التعلم، نكتسب المعرفة، ونطوّر المهارات، ونبني شخصيتنا.
+            إنه يفتح الأبواب أمام فرص جديدة ويساعدنا على فهم العالم من حولنا. كل طفل يستحق فرصة ليتعلم وينمو ويحقق إمكاناته الكاملة.
+            دعونا نُقدّر التعليم وندعم الآخرين في رحلة النمو والاكتشاف.
+        </p>
+    </div>
+
+    <script>
+        function speakText(elementId, lang) {
+            const text = document.getElementById(elementId).innerText;
+            if (text) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = lang;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert("النص غير موجود أو لا يمكن قراءته.");
+            }
+        }
+
+        // التأكد من أن صوت المتصفح تم تحميله بشكل صحيح
+        window.onload = function() {
+            if (!("speechSynthesis" in window)) {
+                alert("الوظيفة الخاصة بالنطق غير مدعومة في متصفحك.");
+            }
+        }
+    </script>
+</body>
+</html>

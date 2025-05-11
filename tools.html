@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>منصة كلمة</title>
+  <link rel="shortcut icon" type="x-icon" href="C:\website\website\image\logo.png">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: white;
+      padding: 20px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .language-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .language-box {
+      background-color: white;
+      border: 2px solid #007BFF;
+      border-radius: 10px;
+      padding: 25px;
+      transition: 0.3s;
+    }
+
+    .language-box:hover {
+      background-color: #e6f0ff;
+      transform: scale(1.05);
+    }
+
+    .language-box a {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .language-box a:hover {
+      background-color: #0056b3;
+    }
+
+    footer {
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .language-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <h1>تطوير الذات</h1>
+    <ul class="nav-links">
+      <li><a href="index.html">الرئيسية</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h2>اختر اللغة التي ترغب في تطوير ذاتك فيها:</h2>
+
+  <div class="language-grid">
+    <div class="language-box">
+      <h3>اللغة الإنجليزية</h3>
+      <a href="english-reading.html">ابدأ الآن</a>
+    </div>
+
+    <div class="language-box">
+      <h3>اللغة الفرنسية</h3>
+      <a href="french-reading.html">ابدأ الآن</a>
+    </div>
+
+    <div class="language-box">
+      <h3>اللغة الإسبانية</h3>
+      <a href="spanish-reading.html">ابدأ الآن</a>
+    </div>
+
+    <div class="language-box">
+      <h3>اللغة التركية</h3>
+      <a href="turkish-reading.html">ابدأ الآن</a>
+    </div>
+
+    <div class="language-box">
+      <h3>اللغة الصينية</h3>
+      <a href="china-reading.html">ابدأ الآن</a>
+    </div>
+
+    <div class="language-box">
+      <h3>اللغة الروسية</h3>
+      <a href="russian-reading.html">ابدأ الآن</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>منصة تعليم اللغات</p>
+</footer>
+
+</body>
+</html>
